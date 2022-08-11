@@ -7,7 +7,7 @@ const FriendSchema = new Schema({
   status: {
     type: String,
     enum: FriendStatus,
-    default: FriendStatus.addFriend
+    default: FriendStatus.PENDING
   },
   recipient: {
     type: Schema.Types.ObjectId,

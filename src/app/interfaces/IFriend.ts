@@ -1,15 +1,13 @@
 import { Document } from 'mongoose';
-import { IUser } from './IUser';
 
 export enum FriendStatus {
-  addFriend,
-  requested,
-  pending,
-  friends
+  PENDING='pending',
+  FRIENDS='friends',
+  BLOCKED='blocked'
 }
 
 export interface IFriend extends Document {
   status: FriendStatus;
-  recipient: IUser;
-  requester: IUser;
+  recipient: string;
+  requester: string;
 }

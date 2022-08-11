@@ -27,11 +27,15 @@ const UserSchema = new Schema({
   timestamps: true
 });
 
-UserSchema.pre('save', async function (this: any, next) {
-  const hash = bcrypt.hash(this.password, 10);
-  this.password = hash;
+UserSchema.pre('save', async function (next) {
+  const user: any = this;
 
-  next();
+  if (!user.isModified('password')) return next();
+
+  const hash = await bcrypt.hash(user.password, 10);
+  user.password = hash;
+
+  return next();
 })
 
 const User = model<IUser>('User', UserSchema);
