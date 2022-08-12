@@ -18,22 +18,16 @@ const UserSchema = new Schema({
     type: String,
     require: true,
     trim: true
-  },
-  friends: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Friend'
-  }],
+  }
 }, {
   timestamps: true
 });
 
 UserSchema.pre('save', async function (next) {
-  const user: any = this;
+  if (!this.isModified('password')) return next();
 
-  if (!user.isModified('password')) return next();
-
-  const hash = await bcrypt.hash(user.password, 10);
-  user.password = hash;
+  const hash = await bcrypt.hash(this.password || '', 10);
+  this.password = hash;
 
   return next();
 })
