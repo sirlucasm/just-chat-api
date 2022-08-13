@@ -1,6 +1,4 @@
 import { Schema, model } from 'mongoose';
-import bcrypt from 'bcryptjs';
-import { IUser } from '../interfaces/IUser';
 import { FriendStatus, IFriend } from '../interfaces/IFriend';
 
 const FriendSchema = new Schema({

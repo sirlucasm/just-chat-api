@@ -59,6 +59,8 @@ class FriendController {
 
   async acceptFriendRequest(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
     try {
+      // when user accept friend request, should create a room name to private chats for both
+
       const { currentUser, body } = req;
       const { id: userId } = currentUser;
       const { friendId } = body;
