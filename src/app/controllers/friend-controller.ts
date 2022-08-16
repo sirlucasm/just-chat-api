@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { AppError } from '../../errors/AppErrors';
 import { FriendStatus } from '../interfaces/IFriend';
+import { Chat } from '../schemas/chat';
 import { Friend } from '../schemas/friend';
 import { User } from '../schemas/user';
 
@@ -65,7 +66,7 @@ class FriendController {
       const { id: userId } = currentUser;
       const { friendId } = body;
 
-      let request = await Friend.findOne({ id: friendId });
+      let request = await Friend.findOne({ _id: friendId });
       if (!request) throw new AppError('Friend request not found', 404);
 
       if (request.status === FriendStatus.FRIENDS) throw new AppError('You are already friends', 400);
@@ -74,6 +75,8 @@ class FriendController {
 
       request.status = FriendStatus.FRIENDS;
       await request.save();
+
+      await Chat.create({ friend: request });
 
       return res.json(request);
     } catch (error: any) {

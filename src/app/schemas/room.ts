@@ -19,4 +19,4 @@ const RoomSchema = new Schema({
 
 const Room = model<IRoom>('Room', RoomSchema);
 
-export { Room };
+export { Room, RoomSchema };

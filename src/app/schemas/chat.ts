@@ -1,15 +1,11 @@
 import { Schema, model } from 'mongoose';
 import { IChat } from '../interfaces/IChat';
+import { FriendSchema } from './friend';
+import { RoomSchema } from './room';
 
 const ChatSchema = new Schema({
-  friend: {
-    type: Schema.Types.ObjectId,
-    ref: 'Friend',
-  },
-  room: {
-    type: Schema.Types.ObjectId,
-    ref: 'Room',
-  },
+  friend: FriendSchema,
+  room: RoomSchema,
   messageInfo: {
     read: { type: Boolean, default: false },
     lastMessage: { type: Schema.Types.ObjectId, ref: 'Message' },

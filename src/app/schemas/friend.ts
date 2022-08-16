@@ -21,4 +21,4 @@ const FriendSchema = new Schema({
 
 const Friend = model<IFriend>('Friend', FriendSchema);
 
-export { Friend };
+export { Friend, FriendSchema };
