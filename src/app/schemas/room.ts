@@ -9,10 +9,18 @@ const RoomSchema = new Schema({
   description: {
     type: String,
   },
-  users: [{
+  members: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
-  }]
+  }],
+  admins: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
 }, {
   timestamps: true
 });
