@@ -11,9 +11,21 @@ class ChatController {
       const chats = await Chat.find({
         $or: [
           { 'friend.recipient': userId },
-          { 'friend.requester': userId }
+          { 'friend.requester': userId },
+          { 'room.members': userId },
+          { 'room.createdBy': userId },
         ]
-      });
+      })
+        .populate([
+          {
+            path: 'friend.recipient',
+            select: ['id', 'name', 'username']
+          },
+          {
+            path: 'friend.requester',
+            select: ['id', 'name', 'username']
+          }
+        ]);
 
       return res.json(chats);
     } catch (error: any) {
