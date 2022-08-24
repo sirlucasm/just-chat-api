@@ -1,8 +1,13 @@
 import { Server, Socket } from "socket.io";
 
 const MessageHandler = (io: Server, socket: Socket) => {
-  const joinPrivateChat = (payload: any) => {
-    socket.join(payload.room);
+  const joinChat = (payload: any) => {
+    socket.join(payload.chatId);
+  }
+
+  const sendPrivateChatMessage = (payload: any) => {
+    const { message, chatId } = payload;
+    io.to(chatId).emit("message:chat:message", message);
   }
 
   const sendGeneralChatMessage = (payload: any) => {
@@ -10,7 +15,9 @@ const MessageHandler = (io: Server, socket: Socket) => {
   }
 
   socket.on("message:chat:general:send", sendGeneralChatMessage);
-  socket.on("message:chat:private:join", joinPrivateChat);
+  socket.on("message:chat:join", joinChat);
+  socket.on("message:chat:message", sendPrivateChatMessage);
+
 };
 
 export default MessageHandler;

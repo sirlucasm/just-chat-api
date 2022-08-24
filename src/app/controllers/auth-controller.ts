@@ -11,11 +11,11 @@ class AuthController {
 
       const user = await User.findOne({ username });
 
-      if (!user) throw new AppError('Some credentials are wrong', 400);
+      if (!user) throw new AppError('Some credentials are wrong', 401);
 
       const passHashCompare = await bcrypt.compare(password, user.password);
 
-      if (!passHashCompare) throw new AppError('Some credentials are wrong', 400);
+      if (!passHashCompare) throw new AppError('Some credentials are wrong', 401);
 
       const token = authenticateUser(user._id);
 
