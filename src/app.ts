@@ -8,7 +8,7 @@ import { router } from './routes';
 const app = express();
 
 app.use(cors({
-  origin: process.env.APP_URL,
+  origin: '*',
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
