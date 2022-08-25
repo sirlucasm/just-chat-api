@@ -1,3 +1,3 @@
 import mongoose from "mongoose";
 
-mongoose.connect('mongodb://localhost:27017/just-chat-db');
+mongoose.connect(process.env.DATABASE_URL || '');
