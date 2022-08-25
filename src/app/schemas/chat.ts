@@ -7,7 +7,7 @@ const ChatSchema = new Schema({
   friend: FriendSchema,
   room: RoomSchema,
   messageInfo: {
-    read: { type: Boolean, default: false },
+    read: { type: Boolean, default: true },
     lastMessage: { type: Schema.Types.ObjectId, ref: 'Message' },
     unreadMessagesCount: { type: Number, default: 0 }
   },
