@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { IMessage } from '../interfaces/IMessage';
+import { ChatSchema } from './chat';
 
 const MessageSchema = new Schema({
   text: {
@@ -11,6 +12,7 @@ const MessageSchema = new Schema({
     ref: 'User',
     require: true
   },
+  chat: ChatSchema,
   deleted: {
     type: Boolean,
     default: false

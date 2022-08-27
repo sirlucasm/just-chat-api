@@ -21,4 +21,4 @@ const ChatSchema = new Schema({
 
 const Chat = model<IChat>('Chat', ChatSchema);
 
-export { Chat };
+export { Chat, ChatSchema };
