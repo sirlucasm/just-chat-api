@@ -24,6 +24,10 @@ class ChatController {
           {
             path: 'friend.requester',
             select: ['id', 'name', 'username']
+          },
+          {
+            path: 'messageInfo.lastMessage',
+
           }
         ]);
 

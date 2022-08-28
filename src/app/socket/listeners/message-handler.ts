@@ -1,4 +1,5 @@
 import { Server, Socket } from "socket.io";
+import { Chat } from "../../schemas/chat";
 import { Message } from "../../schemas/message";
 
 const MessageHandler = (io: Server, socket: Socket) => {
@@ -13,6 +14,13 @@ const MessageHandler = (io: Server, socket: Socket) => {
       text: textMessage,
       user: userId,
       chat
+    });
+    await Chat.updateOne({ _id: chat._id }, {
+      messageInfo: {
+        read: false,
+        lastMessage: newMessage,
+        unreadMessagesCount: chat.messageInfo.unreadMessagesCount+1
+      }
     });
     const message = await Message.findOne({ _id: newMessage._id }).populate('user');
     io.to(chatId).emit("message:chat:message", message);
