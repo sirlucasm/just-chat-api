@@ -37,7 +37,7 @@ class FriendController {
       const { currentUser } = req;
       const { id: userId } = currentUser;
 
-      const requests = await Friend.find({ requester: userId, status: FriendStatus.PENDING });
+      const requests = await Friend.find({ requester: userId, status: FriendStatus.PENDING }).populate(['recipient', 'requester']);
 
       return res.json(requests);
     } catch (error: any) {
@@ -50,7 +50,7 @@ class FriendController {
       const { currentUser } = req;
       const { id: userId } = currentUser;
 
-      const requests = await Friend.find({ recipient: userId, status: FriendStatus.PENDING });
+      const requests = await Friend.find({ recipient: userId, status: FriendStatus.PENDING }).populate(['recipient', 'requester']);
 
       return res.json(requests);
     } catch (error: any) {
@@ -98,6 +98,22 @@ class FriendController {
       });
 
       return res.json(friends);
+    } catch (error: any) {
+      next(error);
+    }
+  }
+
+  async refuseFriendRequest(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+    try {
+      const { params } = req;
+      const { friendId } = params;
+
+      let request = await Friend.findOne({ _id: friendId });
+      if (!request) throw new AppError('Friend request not found', 404);
+
+      await request.delete();
+
+      return res.send();
     } catch (error: any) {
       next(error);
     }

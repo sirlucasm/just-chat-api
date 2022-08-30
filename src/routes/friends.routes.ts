@@ -10,5 +10,6 @@ friendsRoutes.get('/', userAuthentication, friendController.listFriends);
 friendsRoutes.get('/requests/sended', userAuthentication, friendController.listFriendRequestsSendedByMe);
 friendsRoutes.get('/requests/received', userAuthentication, friendController.listFriendRequestsReceived);
 friendsRoutes.post('/requests/accept', userAuthentication, friendController.acceptFriendRequest);
+friendsRoutes.delete('/requests/refuse/:friendId', userAuthentication, friendController.refuseFriendRequest);
 
 export { friendsRoutes };
