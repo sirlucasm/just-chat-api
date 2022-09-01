@@ -118,6 +118,25 @@ class FriendController {
       next(error);
     }
   }
+
+  async findFriendshipByUserId(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+    try {
+      const { currentUser, query } = req;
+      const { id: currentUserId } = currentUser;
+      const { userId } = query;
+
+      const friends = await Friend.findOne({
+        $or: [
+          { $and: [ { requester: currentUserId, recipient: userId } ] },
+          { $and: [ { requester: userId, recipient: currentUserId } ] },
+        ]
+      }).populate(['recipient', 'requester']);
+
+      return res.json(friends);
+    } catch (error: any) {
+      next(error);
+    }
+  }
 }
 
 export { FriendController };

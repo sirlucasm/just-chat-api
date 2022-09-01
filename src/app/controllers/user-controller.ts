@@ -24,10 +24,17 @@ class UserController {
 
   async search(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
     try {
-      const { s } = req.query;
-      const users = await User.find({ username: { $regex: s, $options: "i" } })
+      const { currentUser, query } = req;
+      const { s } = query;
+      const users = await User.find({
+        $or: [
+          { username: { $regex: s, $options: "i" } },
+          { name: { $regex: s, $options: "i" } },
+        ]
+      });
+      const usersFiltered = users.filter((user) => (user.id !== currentUser.id) && (user.username !== currentUser.username));
 
-      return res.status(201).json(users);
+      return res.status(200).json(usersFiltered);
     } catch (error: any) {
       next(error);
     }
