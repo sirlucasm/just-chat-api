@@ -21,6 +21,17 @@ class UserController {
       next(error);
     }
   }
+
+  async search(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+    try {
+      const { s } = req.query;
+      const users = await User.find({ username: { $regex: s, $options: "i" } })
+
+      return res.status(201).json(users);
+    } catch (error: any) {
+      next(error);
+    }
+  }
 }
 
 export { UserController };
